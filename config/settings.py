@@ -1,4 +1,4 @@
-from configparser import ConfigParser
+
 
 
 class Settings:
@@ -11,7 +11,9 @@ class Settings:
 
 
     def get_config(self, env: str):
-        try:
-            return self.config[env]
-        except:
-            raise ValueError(f"Такого окружения нет, вот доступные {self.config.keys()}")
+        if env not in self.config:
+            raise ValueError(f"Такого окружения нет, вот доступные {list(self.config)}")
+        return self.config[env]
+
+if __name__ == "__main__":
+    Settings().get_config("dev123")

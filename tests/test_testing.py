@@ -1,5 +1,4 @@
 import pytest
-import allure
 from config.settings import Settings
 
 class TestFrameWork:
@@ -14,4 +13,5 @@ class TestFrameWork:
 
     @pytest.mark.parametrize("env", ["dev123", "stage123"])
     def test_incorrect_env(self, env, settings: Settings):
-        assert settings.get_config(env) == ValueError
+        with pytest.raises(ValueError):
+            settings.get_config(env)
