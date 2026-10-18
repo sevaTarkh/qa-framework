@@ -1,10 +1,12 @@
 import pytest
-
 from config.settings import Settings
+from core.api_client import APIClient
 
 
-
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def settings():
-    settings1 = Settings()
-    return settings1
+    return Settings()
+
+@pytest.fixture
+def api_client():
+    return APIClient()
