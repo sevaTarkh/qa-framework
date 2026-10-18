@@ -11,6 +11,3 @@ class Settings:
         if env not in self.config:
             raise ValueError(f"Такого окружения нет, вот доступные {list(self.config)}")
         return self.config[env]
-
-if __name__ == "__main__":
-    Settings().get_config("dev123")
