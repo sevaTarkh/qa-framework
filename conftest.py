@@ -1,17 +1,15 @@
-from random import choice
-
 import pytest
 from config.settings import Settings
 from core.api_client import APIClient
 from services.posts_service import PostsService
 
 
-def pytest_addoption(parser, settings):
+def pytest_addoption(parser):
     parser.addoption(
         "--env",
         default="demo",
         help="Какое окружение использовать: dev/stage/demo",
-        choices=list(settings.config)
+        choices=list(Settings().config)
     )
 
 
