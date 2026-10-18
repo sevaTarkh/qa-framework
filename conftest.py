@@ -6,12 +6,12 @@ from core.api_client import APIClient
 from services.posts_service import PostsService
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser, settings):
     parser.addoption(
         "--env",
         default="demo",
         help="Какое окружение использовать: dev/stage/demo",
-        choices=["demo", "dev", "stage"]
+        choices=list(settings.config)
     )
 
 
