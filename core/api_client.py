@@ -1,5 +1,6 @@
 import requests
 
+
 class APIClient:
     def __init__(self, base_url: str, timeout: int = 5):
         self.base_url = base_url.rstrip('/')

@@ -15,5 +15,5 @@ def api_client(settings):
     client.close()
 
 @pytest.fixture
-def post_service(api_client):
+def posts_service(api_client):
     return PostsService(api_client)
