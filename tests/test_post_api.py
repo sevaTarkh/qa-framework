@@ -1,20 +1,18 @@
 import pytest
 
-
 class TestPostApi:
 
+    def test_get_post(self, post_service):
+        response = post_service.get_post(endpoint="/posts/1")
+        assert response.status_code == 200 and "title" in response.json()
 
-    def test_get_user(self, api_client):
-        response = api_client.get(end_point="/posts/1")
-        assert response.status_code == 200
-        assert "title" in response.json()
-
-    def test_get_incorrect_user(self, api_client):
-        response = api_client.get(end_point="/posts/99999")
+    def test_get_incorrect_post(self, post_service):
+        response = post_service.get_post(endpoint="/posts/99999")
         assert response.status_code == 404
 
-    @pytest.mark.parametrize("user_id", [1, 50, 100])
-    def test_get_users_by_id(self, user_id, api_client):
-        response = api_client.get(end_point=f"/posts/{user_id}")
+    @pytest.mark.parametrize("post_id", [1, 50, 100])
+    def test_get_post_by_id(self, post_id, post_service):
+        response = post_service.get_post(endpoint=f"/posts/{post_id}")
         assert response.status_code == 200
+        assert  response.json()['id'] == post_id
 

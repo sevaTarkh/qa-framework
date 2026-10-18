@@ -6,21 +6,21 @@ class APIClient:
         self.timeout = timeout
         self.session = requests.Session()
 
-    def _build_url(self, end_point: str):
-        if not end_point.startswith('/'):
-            end_point = '/' + end_point
-        return self.base_url + end_point
+    def _build_url(self, endpoint: str):
+        if not endpoint.startswith('/'):
+            endpoint = '/' + endpoint
+        return self.base_url + endpoint
 
-    def get(self, end_point: str):
+    def get(self, endpoint: str):
         response = self.session.get(
-            url=self._build_url(end_point=end_point),
+            url=self._build_url(endpoint=endpoint),
             timeout=self.timeout
         )
         return response
 
-    def post(self, end_point: str, payload):
+    def post(self, endpoint: str, payload):
         response = self.session.post(
-            url=self._build_url(end_point=end_point),
+            url=self._build_url(endpoint=endpoint),
             json=payload,
             timeout=self.timeout
         )
