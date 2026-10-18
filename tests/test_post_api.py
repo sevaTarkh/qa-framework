@@ -1,5 +1,5 @@
 import pytest
-from create_data.posts import make_post
+from factories.posts import make_post
 from model.post_model import PostModel
 
 
@@ -22,7 +22,7 @@ class TestPostApi:
         assert created_post.id == post_id
 
     def test_create_post_201(self, posts_service):
-        post_data = make_post(userId="123")
+        post_data = make_post()
         response = posts_service.create_post(payload=post_data)
         assert response.status_code == 201
         created = PostModel.model_validate(response.json())

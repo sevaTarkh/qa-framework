@@ -1,7 +1,6 @@
 from pydantic import BaseModel, ConfigDict
 
 
-
 class PostModel(BaseModel):
     model_config = ConfigDict(strict=True)
 
