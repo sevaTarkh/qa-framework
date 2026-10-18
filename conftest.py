@@ -8,5 +8,7 @@ def settings():
     return Settings()
 
 @pytest.fixture
-def api_client():
-    return APIClient()
+def api_client(settings):
+    client = APIClient(**settings.get_config("demo"))
+    yield client
+    client.close()

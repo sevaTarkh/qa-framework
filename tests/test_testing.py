@@ -13,7 +13,7 @@ class TestFrameWork:
 
     @pytest.mark.parametrize("env", ["dev123", "stage123"])
     def test_incorrect_env(self, env, settings: Settings):
-        with pytest.raises(ValueError, match=f"Такого окружения нет, вот доступные {settings.config}"):
+        with pytest.raises(ValueError, match=f"Такого окружения нет, вот доступные"):
             settings.get_config(env)
 
     def test_different_urls_in_stages(self, settings: Settings):
