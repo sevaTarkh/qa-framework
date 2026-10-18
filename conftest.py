@@ -1,18 +1,36 @@
+from random import choice
+
 import pytest
 from config.settings import Settings
 from core.api_client import APIClient
 from services.posts_service import PostsService
 
 
+def pytest_addoption(parser, settings):
+    parser.addoption(
+        "--env",
+        default="demo",
+        help="Какое окружение использовать: dev/stage/demo",
+        choices=list(settings.config)
+    )
+
+
 @pytest.fixture(scope="function")
 def settings():
     return Settings()
 
+
 @pytest.fixture
-def api_client(settings):
-    client = APIClient(**settings.get_config("demo"))
+def env_name(request):
+    return request.config.getoption("--env")
+
+
+@pytest.fixture
+def api_client(settings, env_name):
+    client = APIClient(**settings.get_config(env_name))
     yield client
     client.close()
+
 
 @pytest.fixture
 def posts_service(api_client):
