@@ -3,8 +3,8 @@ import allure
 from config.settings import Settings
 
 
-@allure.epic("Блог Фреймворк")
-@allure.feature('Фреймворк')
+@allure.epic("Фреймворк")
+@allure.feature('Конфигурация')
 class TestFrameWork:
 
     @allure.title('Проверка корректности содержимого окружений')
