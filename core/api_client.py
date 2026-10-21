@@ -1,4 +1,9 @@
+import logging
+import time
+
 import requests
+
+logger = logging.getLogger(__name__)
 
 
 class APIClient:
@@ -12,20 +17,23 @@ class APIClient:
             endpoint = '/' + endpoint
         return self.base_url + endpoint
 
-    def get(self, endpoint: str):
-        response = self.session.get(
-            url=self._build_url(endpoint=endpoint),
-            timeout=self.timeout
-        )
+    def _request(self, method, endpoint, **kwargs):
+        url = self._build_url(endpoint=endpoint)
+        logger.info("Метод: %s, URL: %s", method, url)
+        logger.debug("Тело запроса: %s", kwargs.get("json"))
+        start_time = time.perf_counter()
+
+        response = self.session.request(method, url, timeout=self.timeout, **kwargs)
+
+        elapsed = time.perf_counter() - start_time
+        logger.info("Статус ответа: %s, время %.2fс", response.status_code, elapsed)
         return response
 
+    def get(self, endpoint: str):
+        return self._request(method="GET", endpoint=endpoint)
+
     def post(self, endpoint: str, payload):
-        response = self.session.post(
-            url=self._build_url(endpoint=endpoint),
-            json=payload,
-            timeout=self.timeout
-        )
-        return response
+        return self._request(method="POST", endpoint=endpoint, json=payload)
 
     def close(self):
         self.session.close()
