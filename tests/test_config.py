@@ -5,10 +5,12 @@ from config.settings import Settings
 
 @allure.epic("Фреймворк")
 @allure.feature('Конфигурация')
+@pytest.mark.regression
 class TestFrameWork:
 
     @allure.title('Проверка корректности содержимого окружений')
     @pytest.mark.parametrize("env", ["dev", "stage"])
+    @pytest.mark.smoke
     def test_correct_env(self, env, settings: Settings):
         config = settings.get_config(env)
         assert "base_url" in config and "timeout" in config
