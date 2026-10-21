@@ -11,6 +11,7 @@ from model.post_model import PostModel
 class TestPostApi:
 
     @allure.title('Получение поста')
+    @allure.story('Получение поста')
     @allure.severity(allure.severity_level.CRITICAL)
     @pytest.mark.smoke
     def test_get_post_200(self, posts_service):
@@ -19,6 +20,7 @@ class TestPostApi:
         PostModel.model_validate(response.json())
 
     @allure.title('Получение несуществующего поста')
+    @allure.story('Получение поста')
     def test_get_missing_post_returns_404(self, posts_service):
         response = posts_service.get_post(post_id=99999)
         assert response.status_code == 404
