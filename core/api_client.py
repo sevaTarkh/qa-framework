@@ -1,8 +1,9 @@
-import requests
 import logging
 import time
 
-logger = logging.getLogger('core.api_client')
+import requests
+
+logger = logging.getLogger(__name__)
 
 class APIClient:
     def __init__(self, base_url: str, timeout: int = 5):
@@ -15,30 +16,22 @@ class APIClient:
             endpoint = '/' + endpoint
         return self.base_url + endpoint
 
-    def get(self, endpoint: str):
+    def _request(self, method, endpoint, **kwargs):
         url = self._build_url(endpoint=endpoint)
-        logger.info(f"Метод: get, URL: {url}")
-        start_time = time.time()
-        response = self.session.get(
-            url=url,
-            timeout=self.timeout
-        )
-        end_time = time.time() - start_time
-        logger.info(f"Статус ответа: {response.status_code}, время {end_time:.2f}s")
+        logger.info("Метод: %s, URL: %s", method, url)
+        start_time = time.perf_counter()
+
+        response = self.session.request(method, url, timeout=self.timeout, **kwargs)
+
+        elapsed = time.perf_counter() - start_time
+        logger.info("Статус ответа: %s, время %.2f", response.status_code, elapsed)
         return response
 
+    def get(self, endpoint: str):
+        return self._request(method="GET", endpoint=endpoint)
+
     def post(self, endpoint: str, payload):
-        url = self._build_url(endpoint=endpoint)
-        logger.info(f"Метод: post, URL: {url}")
-        start_time = time.time()
-        response = self.session.post(
-            url=url,
-            json=payload,
-            timeout=self.timeout
-        )
-        end_time = time.time() - start_time
-        logger.info(f"Статус ответа: {response.status_code}, время {end_time:.2f}s")
-        return response
+        return self._request(method="POST", endpoint=endpoint, json=payload)
 
     def close(self):
         self.session.close()
